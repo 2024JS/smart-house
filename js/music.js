@@ -4,14 +4,14 @@ const songNameElement = document.getElementById('songName');
 const songs = ["songs/ne_pora.mp3", "songs/red_kalyna.mp3", "songs/varshavyanka.mp3"];
 let currentSongIndex = 0;
 const songNames = ["Не пора", "Червона калина", "Варшавянка"];
-
+//зміна заставки при зміні пісні
 function updateBackgroundImage(songPath) {
     const songName = songPath.split('/').pop().split('.')[0];
     const imagePath = `img/${songName}.jpg`;
     musicContainer.style.backgroundImage = `url('${imagePath}')`;
     localStorage.setItem('lastImagePath', imagePath);
 }
-
+//прелоад пісні в заложеності від останньо граючої
 function checkImagePathOnLoad() {
     const lastImagePath = localStorage.getItem('lastImagePath');
     if (lastImagePath !== null) {
