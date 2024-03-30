@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>*The Best Cabin Rental*</title>
+    <!--<link rel="shortcut icon" href="img/bone-icon.svg" type="image/x-icon"/>-->
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+          <!--integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">-->
+</head>
+<body style="background-color: darkkhaki">
+<main>
+    <div class="container-lg col-12 col-lg-10 d-flex flex-lg-row flex-column pt-md-5">
+        <div class="menu col-12 col-lg-3 d-flex flex-lg-column flex-row">
+            <div class="thermostat w-lg-100 col-4 col-lg-12 d-flex flex-lg-row flex-column mb-lg-3 ">
+                <div class="card mb-3  w-100 h-100 rounded-pill">
+                    <div class="thermo-body card-body d-grid rounded-pill">
+                        <h5 class="card-title">Thermostat</h5>
+                        <div class="row w-100 range">
+                            <label for="temperatureControl" class="form-label"></label>
+                            <input type="range" class="form-range" min="20" max="30" id="temperatureControl">
+                        </div>
+                        <p class="card-text temperature-value text-style-main mx-auto fw-bod">select temperature: +25</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lamp w-lg-100 col-4 col-lg-12 d-flex flex-lg-row flex-column mb-lg-3">
+                <div class="card mb-3 w-100 h-100 rounded-pill">
+                    <div class="lamp-body card-body d-grid rounded-pill" >
+                        <h5 class="card-title text-style-main mx-auto ">Lamp</h5>
+                        <div class="form-check form-switch justify-content-center d-flex ">
+                            <input class="form-check-input " type="checkbox" role="switch" id="lampSwitch" checked>
+                            <label class="form-check-label text-style-main fw-bold" for="lampSwitch">Turn on/off</label>
+                        </div>
+                        <div class="row w-100 range" id="brightnessControlContainer">
+                            <label for="brightnessControl" class="form-label"></label>
+                            <input type="range" class="form-range" min="0" max="2" id="brightnessControl">
+                        </div>
+                        <div class="brightness-level text-style-main mx-auto fw-bold">Light power: Medium</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="weather w-lg-100 col-4 col-lg-12 d-flex flex-lg-row flex-column mb-lg-3">
+                <div class="card mb-3 w-100 h-100 rounded-pill">
+                    <div class="weather-body card-body d-grid align-items-center justify-content-center rounded-pill">
+                        <h3 class="card-text mt-5 mb-5 text-style-main" id="weatherValue" >in Kyiv: </h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="music col-12 col-lg-9 d-flex flex-lg-column flex-row">
+            <div class="card mb-3 w-100 h-100 rounded-pill">
+                <div class="card-body w-100 music-body d-flex justify-content-center align-items-center flex-column rounded-pill">
+                    <h1 class="text-style-main card-title text-white bg-dark rounded-pill" style="--bs-bg-opacity: .5;">Music Player</h1>
+                    <h5 class="text-style-main bg-dark text-white mx-auto rounded-pill" id="songName" style="--bs-bg-opacity: .5;" ></h5>
+                    <div class="controls d-flex justify-content-center align-items-center">
+                        <button class="btn btn-primary" id="prevButton"><-</button>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                Select Song
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="songDropdown">
+                                <li><a class="dropdown-item" href="#" data-song="songs/ne_pora.mp3">Не пора</a></li>
+                                <li><a class="dropdown-item" href="#" data-song="songs/red_kalyna.mp3">Червона калина</a></li>
+                                <li><a class="dropdown-item" href="#" data-song="songs/varshavyanka.mp3">Варшавянка</a></li>
+                            </ul>
+                        </div>
+                        <button class="btn btn-primary" id="nextButton">-></button>
+                    </div>
+                    <audio id="audioPlayer" controls></audio>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+</body>
+
+
+
+<script>
+    const musicContainer = document.querySelector('.music-body');
+
+    // Функция для обновления фонового изображения
+    function updateBackgroundImage(songPath) {
+        const songName = songPath.split('/').pop().split('.')[0]; // Получаем название песни из пути к файлу
+        const imagePath = `img/${songName}.jpg`; // Формируем путь к изображению
+        musicContainer.style.backgroundImage = `url('${imagePath}')`; // Обновляем фоновое изображение
+
+        // Сохраняем путь к изображению в localStorage
+        localStorage.setItem('lastImagePath', imagePath);
+    }
+
+    // Функция для проверки пути к изображению при загрузке страницы
+    function checkImagePathOnLoad() {
+        // Получаем последний сохраненный путь к изображению из localStorage
+        const lastImagePath = localStorage.getItem('lastImagePath');
+        if (lastImagePath !== null) {
+            // Обновляем фоновое изображение при загрузке страницы
+            musicContainer.style.backgroundImage = `url('${lastImagePath}')`;
+        }
+    }
+
+    // Добавляем обработчик события при изменении песни
+    audioPlayer.addEventListener('play', function() {
+        updateBackgroundImage(audioPlayer.src);
+    });
+
+    // Проверяем путь к изображению при загрузке страницы
+    checkImagePathOnLoad();
+</script>
+
+<script>
+    // Получаем элементы управления
+    const prevButton = document.getElementById('prevButton');
+    const nextButton = document.getElementById('nextButton');
+    const songNameElement = document.getElementById('songName');
+    const songDropdown = document.getElementById('songDropdown');
+    const audioPlayer = document.getElementById('audioPlayer');
+
+    // Список песен
+    const songs = ["songs/ne_pora.mp3", "songs/red_kalyna.mp3", "songs/varshavyanka.mp3"];
+    let currentSongIndex = 0;
+
+
+    // Функция для обновления названия песни
+    function updateSongName(songName) {
+        if (songName === undefined) {
+            songName = localStorage.getItem('lastSongName');
+        }
+        songNameElement.textContent = "Song Name: " + songName;
+    }
+
+    // Функция для воспроизведения предыдущей песни
+    function playPreviousSong() {
+        currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+        audioPlayer.src = songs[currentSongIndex];
+        audioPlayer.play();
+        updateSongName();
+    }
+
+    // Функция для воспроизведения следующей песни
+    function playNextSong() {
+        currentSongIndex = (currentSongIndex + 1) % songs.length;
+        audioPlayer.src = songs[currentSongIndex];
+        audioPlayer.play();
+        updateSongName();
+    }
+
+
+    // Функция для сохранения информации о последней выбранной песне в localStorage
+    function saveLastSongInfo(songIndex, songName) {
+        localStorage.setItem('lastSongIndex', songIndex);
+        localStorage.setItem('lastSongName', songName);
+    }
+
+    // Назначаем обработчик события для воспроизведения выбранной песни из выпадающего списка
+    function playSelectedSong(event) {
+        const selectedSong = event.target.getAttribute('data-song');
+        const songName = event.target.textContent;
+        const songIndex = songs.indexOf(selectedSong);
+        if (songIndex !== -1) {
+            currentSongIndex = songIndex;
+            audioPlayer.src = songs[currentSongIndex];
+            audioPlayer.play();
+            updateSongName(songName);
+
+            // Сохраняем информацию о последней выбранной песне
+            saveLastSongInfo(currentSongIndex, songName);
+        }
+    }
+
+    // Список названий песен
+    const songNames = ["Не пора", "Червона калина", "Варшавянка"];
+
+    // Функция для проверки названия песни и последней выбранной песни при загрузке страницы
+    function checkSongsOnLoad() {
+        // Получаем название последней песни из localStorage
+        const lastSongName = localStorage.getItem('lastSongName');
+        updateSongName (lastSongName);
+
+
+        // Получаем последнюю выбранную песню из localStorage
+        const lastSongIndex = localStorage.getItem('lastSongIndex');
+        if (lastSongIndex !== null) {
+            currentSongIndex = parseInt(lastSongIndex); // Преобразуем строку в число
+            audioPlayer.src = songs[currentSongIndex]; // Загружаем песню
+            audioPlayer.play(); // Воспроизводим песню
+            updateSongName(songNames[currentSongIndex]); // Обновляем название песни
+        }
+    }
+
+    // Вызываем функцию для проверки названия песни и последней выбранной песни при загрузке страницы
+    checkSongsOnLoad();
+
+    const dropdownItems = document.querySelectorAll('.dropdown-item');
+    // Назначаем обработчик событий для каждого элемента списка
+    dropdownItems.forEach(item => {
+        item.addEventListener('click', playSelectedSong);
+    });
+
+
+    // Назначаем обработчики событий кнопкам и выпадающему списку
+    prevButton.addEventListener('click', playPreviousSong);
+    nextButton.addEventListener('click', playNextSong);
+
+    // Начинаем воспроизведение первой песни
+    audioPlayer.src = songs[currentSongIndex];
+    updateSongName();
+
+</script>
+
+
+<script> //weather in kyiv
+    const weatherValueElement = document.getElementById('weatherValue');
+
+    // URL API для получения данных о погоде
+    const apiUrl = 'https://api.openweathermap.org/data/2.5/weather?lat=50.45&lon=30.52&appid=174ab0c207cb0008ab325f7fed51ce6c&units=metric';
+
+    // Функция для получения данных о погоде и обновления значения температуры
+    async function updateWeather() {
+        try {
+            const response = await fetch(apiUrl);
+            const data = await response.json();
+
+            // Извлекаем значение температуры из полученных данных
+            const temperature = data.main.temp;
+
+            // Обновляем содержимое элемента на странице с id "weatherValue"
+            weatherValueElement.textContent = "in Kyiv: " + temperature.toFixed(1) + ' °C'; // Округляем температуру до одного знака после запятой и добавляем символ градуса
+        } catch (error) {
+            console.error('Ошибка получения данных о погоде:', error);
+        }
+    }
+
+    // Вызываем функцию для обновления данных о погоде при загрузке страницы
+    updateWeather();
+</script>
+
+<script> //lamp control
+const brightnessControl = document.getElementById('brightnessControl');
+const brightnessDisplay = document.querySelector('.brightness-level');
+const lampSwitch = document.getElementById('lampSwitch');
+const brightnessControlContainer = document.getElementById('brightnessControlContainer');
+
+// Функция для сохранения значения в локальном хранилище
+function saveSettingsToLocalStorage() {
+    localStorage.setItem('lampSwitchState', lampSwitch.checked);
+    localStorage.setItem('brightnessLevel', brightnessControl.value);
+}
+
+// Функция для загрузки значений из локального хранилища
+function loadSettingsFromLocalStorage() {
+    const lampSwitchState = localStorage.getItem('lampSwitchState');
+    const brightnessLevel = localStorage.getItem('brightnessLevel');
+    if (lampSwitchState !== null) {
+        lampSwitch.checked = JSON.parse(lampSwitchState);
+    }
+    if (brightnessLevel !== null) {
+        brightnessControl.value = brightnessLevel;
+        updateBrightnessDisplay();
+    }
+}
+
+// Функция для обновления отображения уровня яркости
+function updateBrightnessDisplay() {
+    const brightnessValue = parseInt(brightnessControl.value);
+    let powerLevel;
+    switch (brightnessValue) {
+        case 0:
+            powerLevel = 'Low';
+            document.body.style.backgroundColor = 'gray';
+            break;
+        case 1:
+            powerLevel = 'Medium';
+            document.body.style.backgroundColor = 'darkkhaki';
+            break;
+        case 2:
+            powerLevel = 'High';
+            document.body.style.backgroundColor = 'white';
+            break;
+        default:
+            powerLevel = 'Medium'; // По умолчанию установим средний уровень яркости
+            document.body.style.backgroundColor = 'darkkhaki'; // По умолчанию установим цвет darkkhaki
+    }
+    brightnessDisplay.textContent = "Light power: " + powerLevel;
+}
+
+// Вызываем функцию для загрузки значений из локального хранилища при загрузке страницы
+loadSettingsFromLocalStorage();
+
+// Назначаем обработчик событий для элемента управления яркостью
+brightnessControl.addEventListener('input', function() {
+    updateBrightnessDisplay();
+    saveSettingsToLocalStorage();
+});
+
+// Назначаем обработчик событий для переключателя лампы
+lampSwitch.addEventListener('change', function() {
+    brightnessControlContainer.style.display = this.checked ? 'block' : 'none';
+    saveSettingsToLocalStorage();
+});
+
+// Назначаем обработчик событий для изменения цвета фона при включении/выключении лампы
+lampSwitch.addEventListener('change', function() {
+    document.body.style.backgroundColor = this.checked ? 'darkkhaki' : 'black';
+});
+
+// Функция для проверки состояния переключателя лампы при загрузке страницы
+function checkLampStateOnLoad() {
+    // Проверяем состояние переключателя лампы в localStorage
+    const lampSwitchState = localStorage.getItem('lampSwitchState');
+    if (lampSwitchState !== null) {
+        lampSwitch.checked = JSON.parse(lampSwitchState);
+        // Применяем соответствующие действия в зависимости от состояния переключателя лампы
+        brightnessControlContainer.style.display = lampSwitch.checked ? 'block' : 'none';
+        document.body.style.backgroundColor = lampSwitch.checked ? 'darkkhaki' : 'black';
+    }
+}
+
+// Вызываем функцию для проверки состояния переключателя лампы при загрузке страницы
+checkLampStateOnLoad();
+</script>
+
+<script> //thermostat
+    const temperatureControl = document.getElementById('temperatureControl');
+    const temperatureDisplay = document.querySelector('.temperature-value');
+    // Функция для сохранения значения температуры в локальном хранилище
+    function saveTemperatureToLocalStorage() {
+        const temperatureValue = temperatureControl.value;
+        localStorage.setItem('temperature', temperatureValue);
+    }
+
+    // Функция для загрузки значения температуры из локального хранилища
+    function loadTemperatureFromLocalStorage() {
+        const temperatureValue = localStorage.getItem('temperature');
+        if (temperatureValue) {
+            temperatureControl.value = temperatureValue;
+            temperatureDisplay.textContent = "select temperature: +" + temperatureValue;
+        }
+    }
+
+    // Вызываем функцию для загрузки значения температуры из локального хранилища при загрузке страницы
+    loadTemperatureFromLocalStorage();
+
+    // Назначаем обработчик события для элемента управления диапазоном
+    temperatureControl.addEventListener('input', function() {
+        const temperatureValue = this.value;
+        temperatureDisplay.textContent = "select temperature: +" + temperatureValue;
+        saveTemperatureToLocalStorage();
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</html>

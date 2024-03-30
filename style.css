@@ -1,0 +1,52 @@
+.menu {
+  margin-right: 15px;
+}
+
+.card {
+  text-align: center;
+}
+
+.lamp > div > div > div > .form-check-label {
+  margin-left: 10px;
+}
+
+.range {
+  justify-self: center;
+}
+
+.music-body {
+  background-image: url("img/ne_pora.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.text-style-main {
+  padding-left: 10px !important;
+  padding-right: 10px;
+  background-color: rgba(255, 255, 255, 0.6) !important;
+  border-radius: 75px;
+}
+
+.weather-body {
+  background-image: url("img/weather.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.lamp-body {
+  background-image: url("img/lamp.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.thermo-body {
+  background: linear-gradient(to right, blue, orange, yellow);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/*# sourceMappingURL=style.css.map */
